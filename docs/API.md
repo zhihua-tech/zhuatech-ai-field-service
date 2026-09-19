@@ -16,12 +16,17 @@
 | GET | `/records/export.csv` | 导出 UTF-8 CSV |
 | GET | `/sla-summary` | SLA、逾期、风险和人员工作量 |
 | POST | `/domain/decision` | 执行AI现场服务调度系统专属领域规则 |
+| POST | `/domain/dispatch-plan` | 多工单技能派工、负载控制、SLA风险及未派原因 |
 | GET/POST | `/enterprise/controls` | 企业控制项查询与幂等创建 |
 | POST | `/enterprise/controls/{id}/submit` | 提交复核 |
 | POST | `/admin/enterprise/controls/{id}/review` | 管理员审批或驳回 |
 | POST | `/enterprise/controls/{id}/documents` | 登记附件哈希及存储元数据 |
 | POST | `/enterprise/controls/{id}/complete` | 凭证完整后办结 |
 | POST | `/admin/enterprise/controls/{id}/sync` | 登记外部系统回执 |
+
+## 多工单智能派工
+
+`/domain/dispatch-plan` 接收计划时间、工程师技能/区域/备件/负载和工单 SLA/工时/优先级，输出计划开始与完成时间、匹配分、SLA 风险和不可派原因。
 
 ## 领域决策字段
 
