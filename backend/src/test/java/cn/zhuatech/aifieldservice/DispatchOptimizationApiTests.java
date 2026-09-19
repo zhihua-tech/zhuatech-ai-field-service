@@ -9,6 +9,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+/**
+ * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+ */
 @SpringBootTest @AutoConfigureMockMvc class DispatchOptimizationApiTests {
  @Autowired MockMvc mvc;
  private static final String BODY="""
@@ -18,15 +21,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
    "workOrders":[{"workOrderNo":"WO-1","region":"上海","requiredSkill":"PLC","requiredParts":["P-01"],"slaDueAt":"2026-09-20T12:00:00","serviceHours":2,"priority":100},
                  {"workOrderNo":"WO-2","region":"苏州","requiredSkill":"PLC","requiredParts":[],"slaDueAt":"2026-09-20T11:00:00","serviceHours":1,"priority":80}]}
   """;
+ /**
+  * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+  */
  @Test void assignsBySkillsPartsRegionAndCapacity() throws Exception {
   mvc.perform(post("/api/domain/dispatch-plan").with(httpBasic("operator","operator123")).contentType(MediaType.APPLICATION_JSON).content(BODY))
    .andExpect(status().isOk()).andExpect(jsonPath("$.data.assignedCount").value(1)).andExpect(jsonPath("$.data.unassignedCount").value(1))
    .andExpect(jsonPath("$.data.assignments[0].technicianId").value("T-01")).andExpect(jsonPath("$.data.assignments[0].slaStatus").value("WITHIN_SLA"));
  }
+ /**
+  * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+  */
  @Test void rejectsDuplicateTechnician() throws Exception {
   String duplicate=BODY.replace("\"technicianId\":\"T-02\"","\"technicianId\":\"T-01\"");
   mvc.perform(post("/api/domain/dispatch-plan").with(httpBasic("operator","operator123")).contentType(MediaType.APPLICATION_JSON).content(duplicate))
    .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").value("工程师编号不能重复: T-01"));
  }
+ /**
+  * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+  */
  @Test void dispatchRequiresAuthentication() throws Exception {mvc.perform(post("/api/domain/dispatch-plan").contentType(MediaType.APPLICATION_JSON).content(BODY)).andExpect(status().isUnauthorized());}
 }

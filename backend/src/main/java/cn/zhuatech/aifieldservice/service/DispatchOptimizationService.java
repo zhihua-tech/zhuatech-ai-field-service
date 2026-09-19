@@ -8,8 +8,14 @@ import org.springframework.stereotype.Service;
 import java.time.*;
 import java.util.*;
 
+/**
+ * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+ */
 @Service
 public class DispatchOptimizationService {
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public DispatchResult dispatch(@Valid DispatchRequest request) {
         Set<String> technicianIds = new HashSet<>();
         for (Technician tech : request.technicians()) if (!technicianIds.add(tech.technicianId())) throw new IllegalArgumentException("工程师编号不能重复: " + tech.technicianId());
@@ -44,22 +50,49 @@ public class DispatchOptimizationService {
         return new DispatchResult(assignments,unassigned,load,assignments.size(),unassigned.size(),slaRisks);
     }
 
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     private record Candidate(Technician technician, LocalDateTime start, LocalDateTime finish, long slaLateMinutes, int score) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record DispatchRequest(@NotNull LocalDateTime planAt, @NotEmpty List<@Valid Technician> technicians,
                                   @NotEmpty List<@Valid WorkOrder> workOrders) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record Technician(@NotBlank String technicianId, @NotEmpty Set<@NotBlank String> skills,
                              @NotEmpty Set<@NotBlank String> regions, Set<@NotBlank String> stockParts,
                              @NotNull LocalDateTime availableAt, @Min(1) int maxJobs, @Min(0) int travelMinutes) {
+        /**
+         * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+         */
         public Technician { stockParts = stockParts == null ? Set.of() : Set.copyOf(stockParts); }
     }
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record WorkOrder(@NotBlank String workOrderNo, @NotBlank String region, @NotBlank String requiredSkill,
                             Set<@NotBlank String> requiredParts, @NotNull LocalDateTime slaDueAt,
                             @DecimalMin("0.1") double serviceHours, @Min(1) @Max(100) int priority) {
+        /**
+         * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+         */
         public WorkOrder { requiredParts = requiredParts == null ? Set.of() : Set.copyOf(requiredParts); }
     }
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record DispatchLine(String workOrderNo, String technicianId, LocalDateTime plannedStart, LocalDateTime plannedFinish,
                                int matchScore, String slaStatus, long slaLateMinutes, String reason) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record UnassignedOrder(String workOrderNo, String reason) {}
+    /**
+     * 商业授权或定制开发请微信添加微信号zhuatech或zhuatech2进行咨询。
+     */
     public record DispatchResult(List<DispatchLine> assignments, List<UnassignedOrder> unassigned,
                                  Map<String,Integer> technicianLoad, int assignedCount, int unassignedCount, long slaRiskCount) {}
 }
